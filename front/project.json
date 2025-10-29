@@ -1,0 +1,23 @@
+{
+  "name": "front",
+  "sourceRoot": "front/src",
+  "projectType": "application",
+  "targets": {
+    "dev": {
+      "executor": "@nx/next:dev",
+      "options": { "root": "front", "port": 4200 }
+    },
+    "build": {
+      "executor": "@nx/next:build",
+      "options": { "root": "front" }
+    },
+    "start": {
+      "executor": "@nx/next:start",
+      "options": { "root": "front", "port": 3000 }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "options": { "lintFilePatterns": ["front/**/*.{ts,tsx,js,tsx}"] }
+    }
+  }
+}
