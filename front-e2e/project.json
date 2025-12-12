@@ -1,0 +1,5 @@
+{
+  "name": "front-e2e",
+  "projectType": "application",
+  "implicitDependencies": ["front"]
+}
