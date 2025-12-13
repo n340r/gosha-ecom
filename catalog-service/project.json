@@ -1,0 +1,48 @@
+{
+  "name": "catalog-service",
+  "projectType": "application",
+  "targets": {
+    "dev": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "catalog-service",
+        "command": "go run ./cmd/api"
+      }
+    },
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "catalog-service",
+        "command": "go test ./..."
+      }
+    },
+    "fmt": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "catalog-service",
+        "command": "go fmt ./..."
+      }
+    },
+    "vet": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "catalog-service",
+        "command": "go vet ./..."
+      }
+    },
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "catalog-service",
+        "command": "mkdir -p dist && go build -o dist/api ./cmd/api"
+      }
+    },
+    "start": {
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "catalog-service",
+        "command": "dist/api"
+      }
+    }
+  }
+}

@@ -1,19 +1,19 @@
-import { AddToCartForm, BaseCarousel, Gallery, InfoBlock } from "@/components";
-import { BaseLayout } from "@/layouts";
-import { retailCrm } from "@/lib/server/config";
-import { formatPrice } from "@/lib/utils";
-import { findAllPossibleOffersOfAProduct, transformAllProductsData, transformSingleProductData } from "@/lib/utils";
-import { GetProductsResponse, Product, ShopItem } from "@/types";
+import { AddToCartForm, BaseCarousel, Gallery, InfoBlock } from '@/components';
+import { BaseLayout } from '@/layouts';
+import { retailCrm } from '@/lib/server/config';
+import { formatPrice } from '@/lib/utils';
+import { findAllPossibleOffersOfAProduct, transformAllProductsData, transformSingleProductData } from '@/lib/utils';
+import { GetProductsResponse, Product, ShopItem } from '@/types';
 
 export const dynamicParams = false;
 
 const fetchProducts = async (): Promise<ShopItem[]> => {
   const response = await fetch(`${retailCrm.endpoints.products}?apiKey=${retailCrm.apiKey}`, {
-    cache: "force-cache",
+    cache: 'force-cache',
   });
 
   if (!response.ok) {
-    throw new Error("[Product] Failed to fetch products");
+    throw new Error('[Product] Failed to fetch products');
   }
 
   const data: GetProductsResponse = await response.json();
@@ -24,11 +24,11 @@ const fetchProducts = async (): Promise<ShopItem[]> => {
 const fetchSingleProduct = async (parentProductId: string, _color?: string): Promise<Product> => {
   const response = await fetch(
     `${retailCrm.endpoints.products}?apiKey=${retailCrm.apiKey}&filter[ids][]=${parentProductId}`,
-    { cache: "force-cache" },
+    { cache: 'force-cache' },
   );
 
   if (!response.ok) {
-    throw new Error("[Product] Failed to fetch one product");
+    throw new Error('[Product] Failed to fetch one product');
   }
 
   const data: GetProductsResponse = await response.json();
@@ -47,7 +47,7 @@ export async function generateStaticParams() {
 
   return products.map((product) => ({
     parentProductId: product.parentProductId.toString(),
-    color: product.color ? product.color : "no-color",
+    color: product.color ? product.color : 'no-color',
   }));
 }
 

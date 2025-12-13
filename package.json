@@ -2,12 +2,17 @@
   "name": "@gosha-ecom/source",
   "private": true,
   "scripts": {
-    "dev": "pnpm nx run front:dev",
-    "serve": "pnpm nx run front:dev",
-    "build": "pnpm nx run front:build",
-    "start": "pnpm nx run front:start",
-    "lint": "pnpm nx run front:lint",
-    "typecheck": "tsc -p tsconfig.json"
+    "dev:front": "pnpm nx run front:dev",
+    "build:front": "pnpm nx run front:build",
+    "start:front": "pnpm nx run front:start",
+
+    "dev:catalog": "pnpm nx run catalog-service:dev",
+    "build:catalog": "pnpm nx run catalog-service:build",
+    "start:catalog": "pnpm nx run catalog-service:start",
+
+    "dev": "pnpm nx run-many -t dev --projects=front,catalog-service --parallel",
+    "build": "pnpm nx run-many -t build --projects=front,catalog-service",
+    "start": "pnpm nx run-many -t start --projects=front,catalog-service --parallel"
   },
   "preinstall": "npx only-allow pnpm",
   "devDependencies": {
