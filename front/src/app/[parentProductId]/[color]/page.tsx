@@ -1,37 +1,20 @@
 import { AddToCartForm, BaseCarousel, Gallery, InfoBlock } from '@/components';
 import { BaseLayout } from '@/layouts';
-import { retailCrm } from '@/lib/server/config';
+import { fetchProducts as fetchProductsResponse } from '@/lib/server/products';
 import { formatPrice } from '@/lib/utils';
 import { findAllPossibleOffersOfAProduct, transformAllProductsData, transformSingleProductData } from '@/lib/utils';
 import { GetProductsResponse, Product, ShopItem } from '@/types';
 
 export const dynamicParams = false;
 
-const fetchProducts = async (): Promise<ShopItem[]> => {
-  const response = await fetch(`${retailCrm.endpoints.products}?apiKey=${retailCrm.apiKey}`, {
-    cache: 'force-cache',
-  });
-
-  if (!response.ok) {
-    throw new Error('[Product] Failed to fetch products');
-  }
-
-  const data: GetProductsResponse = await response.json();
+const fetchShopProducts = async (): Promise<ShopItem[]> => {
+  const data: GetProductsResponse = await fetchProductsResponse({ cache: 'force-cache' });
   const { transformedProducts } = transformAllProductsData(data.products);
   return transformedProducts;
 };
 
 const fetchSingleProduct = async (parentProductId: string, _color?: string): Promise<Product> => {
-  const response = await fetch(
-    `${retailCrm.endpoints.products}?apiKey=${retailCrm.apiKey}&filter[ids][]=${parentProductId}`,
-    { cache: 'force-cache' },
-  );
-
-  if (!response.ok) {
-    throw new Error('[Product] Failed to fetch one product');
-  }
-
-  const data: GetProductsResponse = await response.json();
+  const data: GetProductsResponse = await fetchProductsResponse({ cache: 'force-cache', ids: [parentProductId] });
   const product = data.products.at(0);
 
   if (!product) {
@@ -43,7 +26,7 @@ const fetchSingleProduct = async (parentProductId: string, _color?: string): Pro
 
 // Generate static paths based on fetched products
 export async function generateStaticParams() {
-  const products = await fetchProducts();
+  const products = await fetchShopProducts();
 
   return products.map((product) => ({
     parentProductId: product.parentProductId.toString(),

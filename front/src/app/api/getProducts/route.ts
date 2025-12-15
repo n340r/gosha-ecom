@@ -1,4 +1,4 @@
-import { retailCrm } from "@/lib/server/config";
+import { fetchProducts } from "@/lib/server/products";
 import { GetProductsResponse } from "@/types";
 import { NextResponse } from "next/server";
 
@@ -7,13 +7,7 @@ export const fetchCache = "force-no-store";
 
 export async function GET(request: Request): Promise<NextResponse> {
   try {
-    const response = await fetch(`${retailCrm.endpoints.products}?apiKey=${retailCrm.apiKey}`);
-
-    if (!response.ok) {
-      throw new Error("Network response was not ok");
-    }
-
-    const data: GetProductsResponse = await response.json();
+    const data: GetProductsResponse = await fetchProducts({ cache: "no-store" });
 
     return NextResponse.json(data, {
       status: 200,

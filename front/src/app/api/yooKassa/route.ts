@@ -1,4 +1,5 @@
 import { retailCrm, yookassa } from "@/lib/server/config";
+import { fetchProducts } from "@/lib/server/products";
 import { sendOrderDetailsToTelegram } from "@/lib/utils";
 import {
   GetOrdersResponse,
@@ -76,8 +77,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
       console.log("[1.1] Processing... Offers in order:", offersInCreatedOrder);
 
-      const productsResponse = await fetch(`${retailCrm.endpoints.products}?apiKey=${retailCrmApiKey}`);
-      const productsData: GetProductsResponse = await productsResponse.json();
+      const productsData: GetProductsResponse = await fetchProducts({ cache: "no-store" });
       const products = productsData.products;
       console.log("[1.2] Got all the products");
 

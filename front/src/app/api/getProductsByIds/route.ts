@@ -1,5 +1,5 @@
-import { retailCrm } from "@/lib/server/config";
 import { NextResponse } from "next/server";
+import { fetchProducts } from "@/lib/server/products";
 
 export const dynamic = "force-dynamic";
 export const fetchCache = "force-no-store";
@@ -13,12 +13,9 @@ export async function GET(request: Request) {
   }
 
   const idsArray = ids.split(",");
-  const filterParams = idsArray.map((id) => `filter[ids][]=${id}`).join("&");
 
   try {
-    const response = await fetch(`${retailCrm.endpoints.products}?apiKey=${retailCrm.apiKey}&${filterParams}`);
-
-    const data = await response.json();
+    const data = await fetchProducts({ ids: idsArray, cache: "no-store" });
 
     return NextResponse.json(data, { headers: createCorsHeaders() });
   } catch (error) {
