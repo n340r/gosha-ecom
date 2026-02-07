@@ -7,11 +7,11 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     ports:
-      - "5432:5432"
+      - '5432:5432'
     volumes:
       - gosha_pg_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d gosha_ecom"]
+      test: ['CMD-SHELL', 'pg_isready -U postgres -d gosha_ecom']
       interval: 3s
       timeout: 3s
       retries: 20
